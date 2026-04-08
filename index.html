@@ -1,1 +1,998 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Коммерческие перевозки бизнес‑класс</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#050509" />
+  <style>
+    :root {
+      --bg-main: #050509;
+      --bg-elevated: rgba(18, 18, 24, 0.92);
+      --bg-glass: rgba(10, 10, 16, 0.78);
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --accent: #d6a94a;
+      --accent-soft: rgba(214, 169, 74, 0.18);
+      --text-main: #f5f5f7;
+      --text-muted: #8b8b93;
+      --danger: #ff4b5c;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.65);
+      --blur-strong: 26px;
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.28s ease;
+      --max-width: 480px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #151520 0, #050509 55%, #000 100%);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", Roboto, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: var(--max-width);
+      min-height: 100vh;
+      padding: 14px 14px 80px;
+      position: relative;
+      color-scheme: dark;
+    }
+
+    .noise {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.12;
+      mix-blend-mode: soft-light;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+      z-index: -1;
+    }
+
+    .shell {
+      border-radius: 32px;
+      padding: 14px;
+      background: radial-gradient(circle at top left, rgba(214, 169, 74, 0.12), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(214, 169, 74, 0.08), transparent 60%),
+                  linear-gradient(145deg, rgba(10, 10, 16, 0.96), rgba(3, 3, 6, 0.98));
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(32px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 40%, transparent 60%, rgba(214, 169, 74, 0.12));
+      mix-blend-mode: soft-light;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .shell-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 4px 2px 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 0, #fff 0, #f7e3b0 18%, #d6a94a 40%, #8a6a2b 70%, #1a1204 100%);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 10px 26px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 32% 18%;
+      border-radius: 999px;
+      border: 1.4px solid rgba(0, 0, 0, 0.65);
+      border-top-color: rgba(255, 255, 255, 0.7);
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+      transform: rotate(-18deg);
+      opacity: 0.9;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-size: 15px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .chip {
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(214, 169, 74, 0.4);
+      background: radial-gradient(circle at top, rgba(214, 169, 74, 0.18), rgba(10, 10, 16, 0.9));
+      color: var(--accent);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.7);
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #7cffc4 0, #00c46a 40%, #00663a 100%);
+      box-shadow: 0 0 0 4px rgba(0, 196, 106, 0.18);
+    }
+
+    .hero {
+      margin-top: 4px;
+      padding: 14px 4px 4px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-title {
+      font-size: 24px;
+      line-height: 1.18;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-title span {
+      display: block;
+    }
+
+    .hero-title span.highlight {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      margin-top: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 90%;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .meta-pill {
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(12, 12, 18, 0.9);
+      font-size: 11px;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-pill strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .car-card {
+      position: relative;
+      border-radius: 26px;
+      padding: 14px 12px 12px;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 55%),
+                  linear-gradient(145deg, #101018, #050509);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+    }
+
+    .car-glow {
+      position: absolute;
+      inset: 40% -20% -40%;
+      background: radial-gradient(circle at 50% 0, rgba(214, 169, 74, 0.45), transparent 60%);
+      opacity: 0.9;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .car-body {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    .car-copy {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .car-copy h2 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .car-copy .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(214, 169, 74, 0.5);
+      color: var(--accent);
+      font-size: 10px;
+      width: fit-content;
+    }
+
+    .car-copy ul {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .car-copy li {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .car-copy li span:last-child {
+      color: var(--text-main);
+    }
+
+    .car-visual {
+      position: relative;
+      height: 120px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.9), transparent 60%),
+        radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.12), transparent 60%),
+        linear-gradient(145deg, #1a1a22, #050509);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      isolation: isolate;
+    }
+
+    .car-visual::before {
+      content: "";
+      position: absolute;
+      inset: 18% 10%;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 0, #ffffff 0, #f5f5f7 18%, #b3b3b8 40%, #3b3b40 70%, #050509 100%);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(255, 255, 255, 0.12);
+      transform: perspective(600px) rotateX(18deg);
+    }
+
+    .car-visual::after {
+      content: "";
+      position: absolute;
+      inset: 40% 18%;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.7);
+      border-top-color: rgba(255, 255, 255, 0.7);
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+      transform: rotate(-16deg);
+      opacity: 0.9;
+    }
+
+    .car-reflection {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 40%);
+      mix-blend-mode: multiply;
+      opacity: 0.9;
+    }
+
+    .car-meta {
+      position: absolute;
+      inset: auto 10px 8px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-muted);
+      z-index: 2;
+    }
+
+    .car-meta span strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .section {
+      margin-top: 18px;
+      padding: 10px 4px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .section-tag {
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    .pills-row {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .pills-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill-card {
+      min-width: 150px;
+      padding: 10px 11px;
+      border-radius: var(--radius-md);
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.7);
+      display: grid;
+      gap: 4px;
+      font-size: 11px;
+    }
+
+    .pill-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .pill-main {
+      font-size: 12px;
+      color: var(--text-main);
+    }
+
+    .pill-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .pill-price {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .card {
+      padding: 10px 11px;
+      border-radius: var(--radius-md);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      font-size: 11px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .card-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .card-main {
+      font-size: 12px;
+      color: var(--text-main);
+    }
+
+    .card-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .stars {
+      letter-spacing: 1px;
+      color: var(--accent);
+    }
+
+    .review {
+      padding: 10px 11px;
+      border-radius: var(--radius-md);
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      font-size: 11px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .review-text {
+      color: var(--text-main);
+    }
+
+    .review-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .contact-card {
+      padding: 10px 11px 12px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(145deg, rgba(10, 10, 16, 0.96), rgba(5, 5, 9, 0.98));
+      border: 1px solid rgba(214, 169, 74, 0.4);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.9);
+      display: grid;
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .contact-pill {
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.7);
+      font-size: 11px;
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-pill span.icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    .form {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .field {
+      display: grid;
+      gap: 4px;
+    }
+
+    .field label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .field input,
+    .field textarea {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 5, 9, 0.9);
+      color: var(--text-main);
+      font-size: 12px;
+      padding: 8px 10px;
+      outline: none;
+      resize: none;
+      font-family: inherit;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: rgba(139, 139, 147, 0.8);
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: rgba(214, 169, 74, 0.7);
+      box-shadow: 0 0 0 1px rgba(214, 169, 74, 0.4);
+    }
+
+    .primary-btn,
+    .ghost-btn {
+      border-radius: var(--radius-pill);
+      padding: 11px 16px;
+      font-size: 13px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+    }
+
+    .primary-btn {
+      background: radial-gradient(circle at 0 0, #fff 0, #f7e3b0 18%, #d6a94a 40%, #8a6a2b 70%, #1a1204 100%);
+      color: #050509;
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(255, 255, 255, 0.16);
+      font-weight: 600;
+    }
+
+    .primary-btn span.icon {
+      font-size: 14px;
+    }
+
+    .ghost-btn {
+      background: rgba(0, 0, 0, 0.7);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .primary-btn:active,
+    .ghost-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .hero-actions .ghost-btn {
+      flex: 0 0 auto;
+    }
+
+    .hero-actions .primary-btn {
+      flex: 1;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 16px 18px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.96), rgba(0, 0, 0, 0.8), transparent);
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .bottom-inner {
+      width: 100%;
+      max-width: var(--max-width);
+      display: flex;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .bottom-inner .primary-btn {
+      flex: 1;
+      padding-block: 10px;
+      font-size: 13px;
+    }
+
+    .bottom-inner .ghost-btn {
+      padding-block: 10px;
+      font-size: 13px;
+      min-width: 46px;
+    }
+
+    .bottom-inner .ghost-btn span.icon {
+      margin: 0;
+    }
+
+    .microcopy {
+      margin-top: 6px;
+      font-size: 10px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .microcopy span.highlight {
+      color: var(--accent);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .hero-title {
+        font-size: 21px;
+      }
+      .car-body {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .car-visual {
+        margin-top: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="app">
+    <main class="shell">
+      <div class="shell-inner">
+        <header>
+          <div class="brand">
+            <div class="brand-mark"></div>
+            <div class="brand-text">
+              <div class="brand-name">Aurum Drive</div>
+              <div class="brand-tag">Коммерческие перевозки · бизнес‑класс</div>
+            </div>
+          </div>
+          <div class="chip">
+            <span class="chip-dot"></span>
+            <span>Онлайн‑заявка · 24/7</span>
+          </div>
+        </header>
+
+        <section class="hero" id="top">
+          <div>
+            <h1 class="hero-title">
+              <span>Коммерческие</span>
+              <span>перевозки</span>
+              <span class="highlight">на авто бизнес‑класса</span>
+            </h1>
+            <p class="hero-sub">
+              Подача от 15 минут, фиксированная стоимость, конфиденциальность и комфорт для деловых поездок, встреч и мероприятий.
+            </p>
+            <div class="hero-meta">
+              <div class="meta-pill">
+                <span>⏱</span>
+                <span><strong>15–20 мин</strong> подача в городе</span>
+              </div>
+              <div class="meta-pill">
+                <span>🛡</span>
+                <span><strong>Проф. водитель</strong> с опытом 7+ лет</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="primary-btn" onclick="scrollToSection('contact')">
+                <span class="icon">➤</span>
+                <span>Заказать поездку</span>
+              </button>
+              <button class="ghost-btn" onclick="callNow()">
+                <span class="icon">✆</span>
+                <span>Звонок</span>
+              </button>
+            </div>
+          </div>
+
+          <article class="car-card" aria-label="Автомобиль бизнес‑класса">
+            <div class="car-glow"></div>
+            <div class="car-body">
+              <div class="car-copy">
+                <h2>Business Sedan</h2>
+                <div class="badge">
+                  <span>★</span>
+                  <span>Премиальный комфорт</span>
+                </div>
+                <ul>
+                  <li><span>Класс:</span><span>Mercedes E / BMW 5 / Audi A6</span></li>
+                  <li><span>Пассажиры:</span><span>до 3 человек</span></li>
+                  <li><span>Багаж:</span><span>2–3 чемодана</span></li>
+                </ul>
+              </div>
+              <div class="car-visual">
+                <div class="car-reflection"></div>
+                <div class="car-meta">
+                  <span>Интерьер · <strong>чёрная кожа</strong></span>
+                  <span>Климат · <strong>зона комфорта</strong></span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="section" id="services">
+          <div class="section-header">
+            <div class="section-title">Услуги</div>
+            <div class="section-tag">Город · аэропорт · межгород</div>
+          </div>
+          <div class="pills-row">
+            <article class="pill-card">
+              <div class="pill-label">Трансфер</div>
+              <div class="pill-main">Аэропорт / вокзал</div>
+              <div class="pill-sub">Встреча с табличкой, помощь с багажом, ожидание рейса.</div>
+              <div class="pill-price">от 60 $ за поездку</div>
+            </article>
+            <article class="pill-card">
+              <div class="pill-label">Город</div>
+              <div class="pill-main">Деловые поездки</div>
+              <div class="pill-sub">Переговоры, встречи, инспекции объектов, road‑show.</div>
+              <div class="pill-price">от 40 $ / час</div>
+            </article>
+            <article class="pill-card">
+              <div class="pill-label">Межгород</div>
+              <div class="pill-main">Коммерческие маршруты</div>
+              <div class="pill-sub">Поездки в соседние города, сопровождение командировок.</div>
+              <div class="pill-price">от 1.2 $ / км</div>
+            </article>
+            <article class="pill-card">
+              <div class="pill-label">Корпоратив</div>
+              <div class="pill-main">Обслуживание компаний</div>
+              <div class="pill-sub">Фиксированные тарифы, безнал, отчётные документы.</div>
+              <div class="pill-price">индивидуальные условия</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="fleet">
+          <div class="section-header">
+            <div class="section-title">Автопарк</div>
+            <div class="section-tag">Только бизнес‑класс</div>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <div class="card-label">Седан</div>
+              <div class="card-main">Mercedes‑Benz E‑Class</div>
+              <div class="card-sub">Чёрный, кожа, климат‑контроль, тонировка, Wi‑Fi.</div>
+            </article>
+            <article class="card">
+              <div class="card-label">Седан</div>
+              <div class="card-main">BMW 5 Series</div>
+              <div class="card-sub">Премиальный салон, адаптивный свет, зарядка для устройств.</div>
+            </article>
+            <article class="card">
+              <div class="card-label">Седан</div>
+              <div class="card-main">Audi A6</div>
+              <div class="card-sub">Тихий салон, мягкая подвеска, расширенный багажник.</div>
+            </article>
+            <article class="card">
+              <div class="card-label">Опции</div>
+              <div class="card-main">Вода, зарядки, тишина</div>
+              <div class="card-sub">Бутылированная вода, кабели, режим «без разговоров» по запросу.</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="pricing">
+          <div class="section-header">
+            <div class="section-title">Тарифы</div>
+            <div class="section-tag">Прозрачно и фиксировано</div>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <div class="card-label">Город</div>
+              <div class="card-main">от 40 $ / час</div>
+              <div class="card-sub">Минимальный заказ 2 часа, ожидание включено.</div>
+            </article>
+            <article class="card">
+              <div class="card-label">Аэропорт</div>
+              <div class="card-main">от 60 $</div>
+              <div class="card-sub">Встреча, 45 минут ожидания рейса без доплат.</div>
+            </article>
+            <article class="card">
+              <div class="card-label">Межгород</div>
+              <div class="card-main">от 1.2 $ / км</div>
+              <div class="card-sub">Маршрут и стоимость согласуем заранее.</div>
+            </article>
+            <article class="card">
+              <div class="card-label">Корпоратив</div>
+              <div class="card-main">по договору</div>
+              <div class="card-sub">Индивидуальные условия, безнал, закрывающие документы.</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="reviews">
+          <div class="section-header">
+            <div class="section-title">Отзывы</div>
+            <div class="section-tag">Рейтинг 4.9 / 5</div>
+          </div>
+          <div class="rating-row">
+            <span class="stars">★★★★★</span>
+            <span>на основе 120+ поездок</span>
+          </div>
+          <div class="pills-row" style="margin-top:10px;">
+            <article class="review">
+              <div class="review-text">
+                «Используем для встреч с партнёрами и инспекций объектов. Всегда вовремя, без лишних вопросов, комфортно и спокойно».
+              </div>
+              <div class="review-meta">
+                <span>Алексей · девелоперская компания</span>
+                <span>12.2025</span>
+              </div>
+            </article>
+            <article class="review">
+              <div class="review-text">
+                «Важно было сохранить конфиденциальность и чёткий тайминг. Водитель держал маршрут и график идеально».
+              </div>
+              <div class="review-meta">
+                <span>Мария · консалтинг</span>
+                <span>09.2025</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="contact">
+          <div class="section-header">
+            <div class="section-title">Контакты</div>
+            <div class="section-tag">Ответ в течение 5–10 минут</div>
+          </div>
+          <article class="contact-card">
+            <div class="contact-row">
+              <div class="contact-pill" onclick="callNow()">
+                <span class="icon">✆</span>
+                <span>+1 (000) 000‑00‑00</span>
+              </div>
+              <div class="contact-pill">
+                <span class="icon">✱</span>
+                <span>WhatsApp / Telegram</span>
+              </div>
+            </div>
+            <form class="form" onsubmit="submitForm(event)">
+              <div class="field">
+                <label for="name">Имя</label>
+                <input id="name" name="name" type="text" placeholder="Как к вам обращаться" required />
+              </div>
+              <div class="field">
+                <label for="phone">Телефон</label>
+                <input id="phone" name="phone" type="tel" placeholder="+1 ..." required />
+              </div>
+              <div class="field">
+                <label for="route">Маршрут</label>
+                <textarea id="route" name="route" rows="2" placeholder="Откуда — куда, дата, время"></textarea>
+              </div>
+              <button class="primary-btn" type="submit">
+                <span class="icon">➤</span>
+                <span>Отправить заявку</span>
+              </button>
+            </form>
+            <div class="microcopy">
+              <span>Без спама, только по вашей заявке.</span>
+              <span class="highlight">Конфиденциальность гарантирована.</span>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <nav class="bottom-bar" aria-label="Быстрые действия">
+      <div class="bottom-inner">
+        <button class="ghost-btn" type="button" onclick="callNow()">
+          <span class="icon">✆</span>
+        </button>
+        <button class="primary-btn" type="button" onclick="scrollToSection('contact')">
+          <span>Заказать поездку</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <script>
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function callNow() {
+      window.location.href = "tel:+10000000000";
+    }
+
+    function submitForm(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value.trim();
+      const phone = form.phone.value.trim();
+      const route = form.route.value.trim();
+
+      const summary = [
+        name && "Имя: " + name,
+        phone && "Телефон: " + phone,
+        route && "Маршрут: " + route
+      ].filter(Boolean).join("\\n");
+
+      if (summary) {
+        alert("Заявка отправлена:\\n\\n" + summary + "\\n\\nМы свяжемся с вами в ближайшее время.");
+      } else {
+        alert("Заполните, пожалуйста, данные для заявки.");
+      }
+
+      form.reset();
+    }
+  </script>
+</body>
+</html>
